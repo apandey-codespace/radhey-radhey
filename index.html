@@ -1,0 +1,1247 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>राधा नाम जप</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  /* Mobile-first full-screen app — pure black/grey/white theme */
+  :root{
+    --bg:#000000;
+    --panel:#0f0f10;
+    --muted:#9aa0a6;
+    --accent:#ffffff;
+    --accent-2:#bdbdbd;
+    --shadow: rgba(255,255,255,0.06);
+    --primary: #ffffff;
+    --primary-dark: #e0e0e0;
+    --glow: rgba(255,255,255,0.1);
+    --gold: #FFD700;
+    --gold-light: #FFF9C4;
+  }
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:linear-gradient(180deg,var(--bg),#070707);
+    color:var(--accent);
+    font-family: 'Inter', 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  /* Loading Screen */
+  .loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #000000, #1a1a1a);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+  }
+
+  .loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .welcome-message {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .welcome-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+
+  .welcome-subtitle {
+    font-size: 18px;
+    color: var(--accent-2);
+    font-family: 'Hind Siliguri', sans-serif;
+    line-height: 1.5;
+  }
+
+  .loading-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 80%;
+    max-width: 300px;
+  }
+
+  .loading-btn {
+    padding: 16px 32px;
+    border-radius: 50px;
+    border: 2px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: var(--accent);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    backdrop-filter: blur(10px);
+  }
+
+  .loading-btn:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .loading-btn:active {
+    transform: translateY(0);
+  }
+
+  /* Main App */
+  .app-container {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .app-container.active {
+    display: flex;
+  }
+
+  /* Info Page */
+  .info-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    z-index: 200;
+    display: none;
+    flex-direction: column;
+  }
+
+  .info-screen.active {
+    display: flex;
+  }
+
+  .info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .back-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+  }
+
+  .back-btn:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .info-title {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+
+  .download-btn {
+    position: relative;
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .download-btn::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    margin-right: 8px;
+  }
+
+  .download-btn:hover::before {
+    opacity: 1;
+    right: calc(100% + 8px);
+  }
+
+  .download-btn:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .info-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+  }
+
+  .info-section {
+    margin-bottom: 32px;
+  }
+
+  .info-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+  }
+
+  .info-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--accent-2);
+    margin-bottom: 8px;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .feature-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--accent-2);
+    font-size: 14px;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+
+  .feature-list li:last-child {
+    border-bottom: none;
+  }
+
+  /* Stats Panel */
+  .stats-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
+    z-index: 150;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  
+  .stats-panel.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+  
+  .stats-content {
+    background: var(--panel);
+    border-radius: 16px;
+    padding: 24px;
+    width: 85%;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  
+  .stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .stats-title {
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+  
+  .close-stats {
+    background: none;
+    border: none;
+    color: var(--accent-2);
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  
+  .stat-item {
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .stat-label {
+    font-size: 12px;
+    color: var(--accent-2);
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+  
+  /* Streak indicator */
+  .streak-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    gap: 8px;
+  }
+  
+  .streak-days {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+  
+  .streak-fire {
+    color: #ff9800;
+  }
+
+  /* Header / name area — responsive */
+  .name-area{
+    height:22vh;
+    min-height:100px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:4vh;
+    box-sizing:border-box;
+    text-align:center;
+    position: relative;
+  }
+  .name-large{
+    font-size:8vh;
+    line-height:0.9;
+    font-weight:700;
+    letter-spacing:0.02em;
+    color:var(--accent);
+    text-shadow: 0 2px 18px rgba(255,255,255,0.02);
+    position: relative;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+  .name-large::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: var(--accent-2);
+    opacity: 0.3;
+  }
+  .subtitle{
+    font-size:12px;
+    color:var(--accent-2);
+    margin-top:12px;
+    letter-spacing: 0.05em;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+
+  /* central counters area takes remaining flexible space */
+  .center{
+    flex:1 1 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:24px;
+    padding:10px 18px 120px 18px;
+    box-sizing:border-box;
+  }
+
+  .counters{
+    display:flex;
+    gap:18px;
+    width:100%;
+    max-width:420px;
+    justify-content:space-around;
+    align-items:center;
+  }
+  .counter{
+    flex:1 1 48%;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:14px;
+    padding:16px;
+    box-sizing:border-box;
+    text-align:center;
+    box-shadow: 0 6px 18px rgba(255,255,255,0.02);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.03);
+    transition: all 0.2s ease;
+  }
+  .counter:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(255,255,255,0.04);
+  }
+  .counter .label{
+    font-size:12px;
+    color:var(--accent-2);
+    margin-bottom:8px;
+    letter-spacing: 0.05em;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+  .counter .value{
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:0.02em;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+  }
+  .counter .value.incrementing {
+    animation: pulse 0.3s ease;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  /* Floating circular button bottom-center */
+  .floating-wrap{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:28px;
+    z-index:40;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .circle-btn{
+    width:92px;
+    height:92px;
+    border-radius:50%;
+    background:linear-gradient(180deg,#ffffff10,#ffffff06);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow: 0 10px 30px rgba(255,255,255,0.04);
+    border:2px solid rgba(255,255,255,0.06);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select:none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .circle-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .circle-btn:hover::before {
+    opacity: 1;
+  }
+  .circle-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 36px rgba(255,255,255,0.06);
+  }
+  .circle-btn:active{
+    transform: scale(0.98);
+  }
+  .circle-inner{
+    width:76px;
+    height:76px;
+    border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, #ffffff, #f0f0f0);
+    color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:700;
+    box-shadow:0 8px 22px rgba(0,0,0,0.45);
+    transition: all 0.2s ease;
+    font-family: 'Hind Siliguri', sans-serif;
+    position: relative;
+    z-index: 2;
+  }
+  .circle-btn:active .circle-inner {
+    transform: scale(0.95);
+  }
+
+  /* Progress indicator for long press */
+  .progress-ring {
+    position: absolute;
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    pointer-events: none;
+    display: none;
+  }
+  
+  .progress-ring-circle {
+    fill: none;
+    stroke: rgba(255,255,255,0.1);
+    stroke-width: 2;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+
+  /* Corner buttons - icons only */
+  .corner-btn {
+    position: fixed;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.02);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    z-index: 50;
+    color: var(--accent-2);
+    font-size: 18px;
+  }
+  
+  .corner-btn:hover {
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-1px);
+  }
+
+  .reset-btn {
+    left: 16px;
+    bottom: 28px;
+  }
+
+  .stats-btn {
+    right: 16px;
+    bottom: 28px;
+  }
+
+  /* Info button - Better icon */
+  .info-btn {
+    position: fixed;
+    right: 16px;
+    top: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,0.02);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    z-index: 50;
+    color: var(--accent-2);
+    font-size: 18px;
+  }
+
+  .info-btn:hover {
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-1px);
+  }
+
+  /* Instruction text */
+  .instruction {
+    margin-top:24px;
+    text-align:center;
+    color:var(--accent-2);
+    font-size:13px;
+    max-width:320px;
+    line-height: 1.5;
+    padding: 0 12px;
+    font-family: 'Hind Siliguri', sans-serif;
+  }
+
+  /* Mala completion notification */
+  .mala-notification {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--gold), var(--gold-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    font-family: 'Inter', sans-serif;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateX(-50%) translateY(0) scale(0.5);
+      opacity: 0;
+    }
+    20% {
+      transform: translateX(-50%) translateY(-20px) scale(1);
+      opacity: 1;
+    }
+    80% {
+      transform: translateX(-50%) translateY(-80px) scale(1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateX(-50%) translateY(-120px) scale(0.8);
+      opacity: 0;
+    }
+  }
+
+  /* Celebration animation for mala completion */
+  @keyframes celebrate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  .celebrate {
+    animation: celebrate 0.6s ease;
+  }
+
+  /* Particle effects */
+  .particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    pointer-events: none;
+    opacity: 0;
+    bottom: 100px;
+    left: 50%;
+  }
+
+  @keyframes particleFloat {
+    0% {
+      transform: translateX(-50%) translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(calc(-50% + var(--p-tx))) translateY(var(--p-ty)) scale(0);
+      opacity: 0;
+    }
+  }
+
+  /* Small device adjustments */
+  @media (max-height: 700px) {
+    .name-area {
+      height: 18vh;
+      padding-bottom: 2vh;
+    }
+    .name-large {
+      font-size: 6vh;
+    }
+    .center {
+      padding-bottom: 100px;
+    }
+  }
+
+  @media (max-width: 350px) {
+    .name-large {
+      font-size: 5vh;
+    }
+    .counters {
+      flex-direction: column;
+      gap: 12px;
+    }
+    .counter {
+      width: 100%;
+    }
+  }
+</style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="welcome-message">
+      <div class="welcome-title">राधे राधे बंधु</div>
+      <div class="welcome-subtitle">कृष्ण सदा सहायते</div>
+    </div>
+    <div class="loading-buttons">
+      <button class="loading-btn" id="continueWeb">Continue to Web</button>
+      <button class="loading-btn" id="downloadApp">Download App</button>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div class="app-container" id="appContainer">
+    <!-- Info Button with better icon -->
+    <button class="info-btn" id="infoBtn" title="App Information">
+      <i class="fas fa-circle-info"></i>
+    </button>
+
+    <header class="name-area" aria-hidden="false">
+      <div>
+        <div class="name-large">राधा</div>
+        <div class="subtitle">नाम जप</div>
+      </div>
+    </header>
+
+    <main class="center" role="main">
+      <div class="counters" aria-live="polite">
+        <div class="counter" id="dailyCounter">
+          <div class="label">आज के जप</div>
+          <div class="value" id="dailyValue">0</div>
+        </div>
+        <div class="counter" id="lifeCounter">
+          <div class="label">जमाना (Lifetime)</div>
+          <div class="value" id="lifeValue">0</div>
+        </div>
+      </div>
+
+      <div class="instruction">
+        टैप करके जप बढ़ाएँ — लंबे दबाव से तेज़ जप। गिनती स्थानीय रूप से संचित रहती है।
+      </div>
+    </main>
+
+    <!-- Corner buttons with icons only -->
+    <button class="corner-btn reset-btn" id="resetBtn" title="Reset to last checkpoint">
+      <i class="fas fa-undo"></i>
+    </button>
+
+    <button class="corner-btn stats-btn" id="statsBtn" title="Statistics">
+      <i class="fas fa-chart-bar"></i>
+    </button>
+
+    <div class="floating-wrap">
+      <svg class="progress-ring" id="progressRing">
+        <circle class="progress-ring-circle" r="42" cx="46" cy="46"></circle>
+      </svg>
+      <div class="circle-btn" id="mainBtn" role="button" aria-pressed="false" aria-label="जप बटन">
+        <div class="circle-inner" id="innerBtn">जय</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Panel -->
+  <div class="stats-panel" id="statsPanel">
+    <div class="stats-content">
+      <div class="stats-header">
+        <div class="stats-title">जप आँकड़े</div>
+        <button class="close-stats" id="closeStats"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value" id="statToday">0</div>
+          <div class="stat-label">आज के जप</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="statWeek">0</div>
+          <div class="stat-label">इस सप्ताह</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="statMonth">0</div>
+          <div class="stat-label">इस महीने</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" id="statTotal">0</div>
+          <div class="stat-label">कुल जप</div>
+        </div>
+      </div>
+      <div class="streak-indicator">
+        <div class="streak-fire"><i class="fas fa-fire"></i></div>
+        <div class="streak-days" id="streakDays">0 दिन लगातार</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Screen -->
+  <div class="info-screen" id="infoScreen">
+    <div class="info-header">
+      <button class="back-btn" id="backBtn">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <div class="info-title">App Information</div>
+      <button class="download-btn" id="infoDownloadBtn" data-tooltip="Download App">
+        <i class="fas fa-download"></i>
+      </button>
+    </div>
+    <div class="info-content">
+      <div class="info-section">
+        <h3>Developed With Love</h3>
+        <p>This app is developed with devotion to Radha Krishna. May their blessings be with you always.</p>
+        <p><strong>राधे राधे</strong></p>
+      </div>
+
+      <div class="info-section">
+        <h3>How to Use</h3>
+        <ul class="feature-list">
+          <li>• Tap the center button to increment count by 1</li>
+          <li>• Long press for continuous counting</li>
+          <li>• Every 108 counts completes one mala</li>
+          <li>• Use reset button to go back to last checkpoint</li>
+          <li>• Your progress is saved automatically</li>
+        </ul>
+      </div>
+
+      <div class="info-section">
+        <h3>Features</h3>
+        <ul class="feature-list">
+          <li>• Beautiful minimalist design</li>
+          <li>• Daily and lifetime counters</li>
+          <li>• Mala completion celebrations</li>
+          <li>• Progress statistics</li>
+          <li>• Works offline</li>
+          <li>• No ads, completely free</li>
+        </ul>
+      </div>
+
+      <div class="info-section">
+        <h3>Spiritual Significance</h3>
+        <p>Chanting Radha's name brings peace, happiness and spiritual progress. Regular japa purifies the heart and connects us with divine love.</p>
+        <p>"राधा नाम महामंत्र, सब सिद्धि करे दातार"</p>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  // Loading Screen Logic
+  const loadingScreen = document.getElementById('loadingScreen');
+  const appContainer = document.getElementById('appContainer');
+  const continueWeb = document.getElementById('continueWeb');
+  const downloadApp = document.getElementById('downloadApp');
+
+  continueWeb.addEventListener('click', function() {
+    loadingScreen.classList.add('hidden');
+    setTimeout(() => {
+      appContainer.classList.add('active');
+    }, 500);
+  });
+
+  downloadApp.addEventListener('click', function() {
+    alert('App download link will be added soon!');
+  });
+
+  // Info Screen Logic
+  const infoBtn = document.getElementById('infoBtn');
+  const infoScreen = document.getElementById('infoScreen');
+  const backBtn = document.getElementById('backBtn');
+  const infoDownloadBtn = document.getElementById('infoDownloadBtn');
+
+  infoBtn.addEventListener('click', function() {
+    infoScreen.classList.add('active');
+  });
+
+  backBtn.addEventListener('click', function() {
+    infoScreen.classList.remove('active');
+  });
+
+  infoDownloadBtn.addEventListener('click', function() {
+    alert('App download link will be added soon!');
+  });
+
+  // Stats Panel Logic
+  const statsBtn = document.getElementById('statsBtn');
+  const statsPanel = document.getElementById('statsPanel');
+  const closeStats = document.getElementById('closeStats');
+
+  statsBtn.addEventListener('click', function() {
+    loadStats();
+    statsPanel.classList.add('show');
+  });
+
+  closeStats.addEventListener('click', function() {
+    statsPanel.classList.remove('show');
+  });
+
+  statsPanel.addEventListener('click', function(e) {
+    if (e.target === statsPanel) {
+      statsPanel.classList.remove('show');
+    }
+  });
+
+  // keys
+  const LS_LIFE = 'radha_lifetime_v1';
+  const LS_DAY = 'radha_daily_v1';
+  const LS_DAY_DATE = 'radha_daily_date_v1';
+  const LS_WEEKLY = 'radha_weekly_v1';
+  const LS_MONTHLY = 'radha_monthly_v1';
+  const LS_STREAK = 'radha_streak_v1';
+  const LS_LAST_DATE = 'radha_last_date_v1';
+  const LS_CHECKPOINT = 'radha_checkpoint_v1';
+
+  // elements
+  const dailyValue = document.getElementById('dailyValue');
+  const lifeValue = document.getElementById('lifeValue');
+  const mainBtn = document.getElementById('mainBtn');
+  const innerBtn = document.getElementById('innerBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const progressRing = document.getElementById('progressRing');
+  const progressCircle = progressRing.querySelector('circle');
+  const statToday = document.getElementById('statToday');
+  const statWeek = document.getElementById('statWeek');
+  const statMonth = document.getElementById('statMonth');
+  const statTotal = document.getElementById('statTotal');
+  const streakDays = document.getElementById('streakDays');
+
+  // Mala completion messages
+  const malaMessages = [
+    "एक माला पूर्ण! 🌸",
+    "१०८ जप पूरे! ✨",
+    "शुभ माला! 🕉️",
+    "राधे राधे! 💫",
+    "भक्ति बढ़ती रहे! 🙏"
+  ];
+
+  // Set up progress ring
+  const radius = progressCircle.r.baseVal.value;
+  const circumference = radius * 2 * Math.PI;
+  progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+  progressCircle.style.strokeDashoffset = circumference;
+
+  // load values
+  function todayKey(){
+    const d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth()+1).toString().padStart(2,'0') + '-' + d.getDate().toString().padStart(2,'0');
+  }
+  
+  function weekKey(){
+    const d = new Date();
+    const firstDay = new Date(d.setDate(d.getDate() - d.getDay()));
+    return firstDay.getFullYear() + '-' + (firstDay.getMonth()+1).toString().padStart(2,'0') + '-' + firstDay.getDate().toString().padStart(2,'0');
+  }
+  
+  function monthKey(){
+    const d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth()+1).toString().padStart(2,'0');
+  }
+
+  function updateStreak() {
+    const today = todayKey();
+    const lastDate = localStorage.getItem(LS_LAST_DATE) || '';
+    const streak = parseInt(localStorage.getItem(LS_STREAK) || '0', 10);
+    
+    if (lastDate !== today) {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayKey = yesterday.getFullYear() + '-' + (yesterday.getMonth()+1).toString().padStart(2,'0') + '-' + yesterday.getDate().toString().padStart(2,'0');
+      
+      if (lastDate === yesterdayKey) {
+        // Consecutive day
+        localStorage.setItem(LS_STREAK, String(streak + 1));
+      } else if (lastDate !== today) {
+        // Broken streak
+        localStorage.setItem(LS_STREAK, '1');
+      }
+      
+      localStorage.setItem(LS_LAST_DATE, today);
+    }
+  }
+
+  function load(){
+    let life = parseInt(localStorage.getItem(LS_LIFE) || '0',10);
+    let day = parseInt(localStorage.getItem(LS_DAY) || '0',10);
+    let storedDate = localStorage.getItem(LS_DAY_DATE) || '';
+    const nowKey = todayKey();
+    
+    if(storedDate !== nowKey){
+      // new day -> reset daily
+      day = 0;
+      localStorage.setItem(LS_DAY_DATE, nowKey);
+      localStorage.setItem(LS_DAY, '0');
+      
+      // Update weekly and monthly counts
+      updateWeeklyMonthly();
+    }
+    
+    updateStreak();
+    dailyValue.textContent = day;
+    lifeValue.textContent = life;
+    
+    // Set initial checkpoint
+    if (!localStorage.getItem(LS_CHECKPOINT)) {
+      localStorage.setItem(LS_CHECKPOINT, '0');
+    }
+  }
+
+  // Update weekly and monthly data
+  function updateWeeklyMonthly() {
+    const todayCount = parseInt(localStorage.getItem(LS_DAY) || '0', 10);
+    const currentWeek = weekKey();
+    const currentMonth = monthKey();
+    
+    // Weekly data
+    let weeklyData = JSON.parse(localStorage.getItem(LS_WEEKLY) || '{}');
+    if (weeklyData.week !== currentWeek) {
+      weeklyData = { week: currentWeek, count: 0 };
+    }
+    weeklyData.count += todayCount;
+    localStorage.setItem(LS_WEEKLY, JSON.stringify(weeklyData));
+    
+    // Monthly data
+    let monthlyData = JSON.parse(localStorage.getItem(LS_MONTHLY) || '{}');
+    if (monthlyData.month !== currentMonth) {
+      monthlyData = { month: currentMonth, count: 0 };
+    }
+    monthlyData.count += todayCount;
+    localStorage.setItem(LS_MONTHLY, JSON.stringify(monthlyData));
+  }
+
+  // save helpers
+  function saveDay(v){ localStorage.setItem(LS_DAY, String(v)); }
+  function saveLife(v){ localStorage.setItem(LS_LIFE, String(v)); }
+
+  // Create mala completion notification
+  function createMalaNotification() {
+    const floatingWrap = document.querySelector('.floating-wrap');
+    const notification = document.createElement('div');
+    notification.className = 'mala-notification';
+    notification.textContent = '108';
+    
+    floatingWrap.appendChild(notification);
+    
+    // Animate the notification
+    notification.style.animation = `floatUp 2s ease forwards`;
+    
+    // Remove after animation
+    setTimeout(() => {
+      notification.remove();
+    }, 2000);
+  }
+
+  // Create particle effect
+  function createParticles(count) {
+    const floatingWrap = document.querySelector('.floating-wrap');
+    
+    for (let i = 0; i < count; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 80 + Math.random() * 60;
+      const tx = Math.cos(angle) * distance;
+      const ty = - (100 + Math.random() * 100);
+      
+      particle.style.setProperty('--p-tx', `${tx}px`);
+      particle.style.setProperty('--p-ty', `${ty}px`);
+      
+      floatingWrap.appendChild(particle);
+      
+      // Animate the particle
+      particle.style.animation = `particleFloat 1.5s ease forwards`;
+      
+      // Remove after animation
+      setTimeout(() => {
+        particle.remove();
+      }, 1500);
+    }
+  }
+
+  // increment logic
+  function increment(n){
+    const life = parseInt(localStorage.getItem(LS_LIFE) || '0',10) + n;
+    const day = parseInt(localStorage.getItem(LS_DAY) || '0',10) + n;
+    saveLife(life); saveDay(day);
+    
+    // Add animation to counter values
+    dailyValue.classList.add('incrementing');
+    lifeValue.classList.add('incrementing');
+    setTimeout(() => {
+      dailyValue.classList.remove('incrementing');
+      lifeValue.classList.remove('incrementing');
+    }, 300);
+    
+    dailyValue.textContent = day;
+    lifeValue.textContent = life;
+    
+    // Check for mala completion (every 108 counts)
+    if (life % 108 === 0 && life > 0) {
+      // Set checkpoint at mala completion
+      localStorage.setItem(LS_CHECKPOINT, String(life));
+      
+      // Celebrate mala completion
+      innerBtn.classList.add('celebrate');
+      setTimeout(() => {
+        innerBtn.classList.remove('celebrate');
+      }, 600);
+      
+      // Show mala completion notification
+      createMalaNotification();
+      
+      // Create particles
+      createParticles(15);
+      
+      // Show random mala message as alert
+      const randomMessage = malaMessages[Math.floor(Math.random() * malaMessages.length)];
+      alert(randomMessage);
+    }
+    
+    // tiny ripple animation
+    innerBtn.animate([{transform:'scale(1)'},{transform:'scale(0.94)'},{transform:'scale(1)'}],{duration:220,easing:'ease-out'});
+  }
+
+  // Reset to last checkpoint
+  resetBtn.addEventListener('click', function(){
+    const checkpoint = parseInt(localStorage.getItem(LS_CHECKPOINT) || '0', 10);
+    const currentLife = parseInt(localStorage.getItem(LS_LIFE) || '0', 10);
+    const currentDay = parseInt(localStorage.getItem(LS_DAY) || '0', 10);
+    
+    if (currentLife === checkpoint) {
+      alert('आप पहले से ही अंतिम चेकपॉइंट पर हैं');
+      return;
+    }
+    
+    const diff = currentLife - checkpoint;
+    
+    // Reset to checkpoint
+    saveLife(checkpoint);
+    saveDay(Math.max(0, currentDay - diff));
+    
+    dailyValue.textContent = Math.max(0, currentDay - diff);
+    lifeValue.textContent = checkpoint;
+    
+    alert(`अंतिम चेकपॉइंट पर वापस: ${checkpoint} जप`);
+  });
+
+  // Load stats for the stats panel
+  function loadStats() {
+    const today = parseInt(localStorage.getItem(LS_DAY) || '0', 10);
+    const life = parseInt(localStorage.getItem(LS_LIFE) || '0', 10);
+    const weeklyData = JSON.parse(localStorage.getItem(LS_WEEKLY) || '{"count":0}');
+    const monthlyData = JSON.parse(localStorage.getItem(LS_MONTHLY) || '{"count":0}');
+    const streak = parseInt(localStorage.getItem(LS_STREAK) || '0', 10);
+    
+    statToday.textContent = today;
+    statWeek.textContent = weeklyData.count;
+    statMonth.textContent = monthlyData.count;
+    statTotal.textContent = life;
+    streakDays.textContent = `${streak} दिन लगातार`;
+  }
+
+  // main button interactions: tap increments by 1, long press auto increments
+  let holdInterval = null;
+  let holdTimeout = null;
+  let holdStartTime = null;
+  
+  function setProgress(percent) {
+    const offset = circumference - percent / 100 * circumference;
+    progressCircle.style.strokeDashoffset = offset;
+  }
+  
+  mainBtn.addEventListener('pointerdown', function(e){
+    e.preventDefault();
+    // immediate increment
+    increment(1);
+    holdStartTime = Date.now();
+    
+    // start a timeout that after 400ms will start auto-increment every 120ms
+    holdTimeout = setTimeout(()=>{
+      // Show progress ring
+      progressRing.style.display = 'block';
+      
+      holdInterval = setInterval(()=>{
+        increment(1);
+        const elapsed = Date.now() - holdStartTime;
+        const progress = Math.min(100, (elapsed - 400) / 2000 * 100);
+        setProgress(progress);
+      }, 120);
+    }, 400);
+  });
+  
+  function upHandler(){
+    clearTimeout(holdTimeout);
+    if(holdInterval){ 
+      clearInterval(holdInterval); 
+      holdInterval=null; 
+    }
+    
+    // Hide progress ring
+    progressRing.style.display = 'none';
+    setProgress(0);
+    
+    holdStartTime = null;
+  }
+  
+  mainBtn.addEventListener('pointerup', upHandler);
+  mainBtn.addEventListener('pointercancel', upHandler);
+  mainBtn.addEventListener('pointerleave', upHandler);
+
+  // initialize
+  load();
+
+  // ensure daily reset at midnight while app open: schedule next reset
+  function scheduleMidnightReset(){
+    const now = new Date();
+    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1,0,0,5);
+    const ms = next - now;
+    setTimeout(function(){
+      localStorage.setItem(LS_DAY, '0');
+      localStorage.setItem(LS_DAY_DATE, todayKey());
+      dailyValue.textContent = '0';
+      scheduleMidnightReset();
+    }, ms);
+  }
+  scheduleMidnightReset();
+})();
+</script>
+</body>
+</html>
