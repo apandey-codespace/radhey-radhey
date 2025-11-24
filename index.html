@@ -1,1247 +1,1055 @@
-<!doctype html>
-<html lang="hi">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>राधा नाम जप</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-  /* Mobile-first full-screen app — pure black/grey/white theme */
-  :root{
-    --bg:#000000;
-    --panel:#0f0f10;
-    --muted:#9aa0a6;
-    --accent:#ffffff;
-    --accent-2:#bdbdbd;
-    --shadow: rgba(255,255,255,0.06);
-    --primary: #ffffff;
-    --primary-dark: #e0e0e0;
-    --glow: rgba(255,255,255,0.1);
-    --gold: #FFD700;
-    --gold-light: #FFF9C4;
-  }
-  html,body{height:100%;}
-  body{
-    margin:0;
-    background:linear-gradient(180deg,var(--bg),#070707);
-    color:var(--accent);
-    font-family: 'Inter', 'Hind Siliguri', system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    width:100vw;
-    height:100vh;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    align-items:stretch;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CalcPlay</title>
+  <!-- Multiple Font Awesome CDNs for reliability -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <!-- Backup CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+  <!-- Playful Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      /* Light theme - Clean Black, White & Grey */
+      --bg: #ffffff;
+      --display-bg: #f8f9fa;
+      --surface: #ffffff;
+      --text-primary: #000000;
+      --text-secondary: #666666;
+      --border: #e0e0e0;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.04);
+      --shadow-button: 0 2px 8px rgba(0, 0, 0, 0.08);
 
-  /* Loading Screen */
-  .loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #000000, #1a1a1a);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    transition: opacity 0.5s ease;
-  }
+      --button-bg: #ffffff;
+      --button-hover: #f5f5f5;
+      --button-active: #eeeeee;
 
-  .loading-screen.hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
+      --operator-bg: #f0f0f0;
+      --operator-text: #000000;
+      --operator-hover: #e5e5e5;
 
-  .welcome-message {
-    text-align: center;
-    margin-bottom: 50px;
-  }
+      --equals-bg: #000000;
+      --equals-text: #ffffff;
+      --equals-hover: #333333;
 
-  .welcome-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 16px;
-    font-family: 'Hind Siliguri', sans-serif;
-  }
+      --clear-color: #d32f2f;
+      --accent-color: #000000;
 
-  .welcome-subtitle {
-    font-size: 18px;
-    color: var(--accent-2);
-    font-family: 'Hind Siliguri', sans-serif;
-    line-height: 1.5;
-  }
-
-  .loading-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 80%;
-    max-width: 300px;
-  }
-
-  .loading-btn {
-    padding: 16px 32px;
-    border-radius: 50px;
-    border: 2px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.05);
-    color: var(--accent);
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-family: 'Inter', sans-serif;
-    text-align: center;
-    backdrop-filter: blur(10px);
-  }
-
-  .loading-btn:hover {
-    background: rgba(255,255,255,0.1);
-    transform: translateY(-2px);
-    border-color: rgba(255,255,255,0.2);
-  }
-
-  .loading-btn:active {
-    transform: translateY(0);
-  }
-
-  /* Main App */
-  .app-container {
-    display: none;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .app-container.active {
-    display: flex;
-  }
-
-  /* Info Page */
-  .info-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg);
-    z-index: 200;
-    display: none;
-    flex-direction: column;
-  }
-
-  .info-screen.active {
-    display: flex;
-  }
-
-  .info-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-
-  .back-btn {
-    background: none;
-    border: none;
-    color: var(--accent);
-    font-size: 18px;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 8px;
-    transition: background 0.2s ease;
-  }
-
-  .back-btn:hover {
-    background: rgba(255,255,255,0.05);
-  }
-
-  .info-title {
-    font-size: 18px;
-    font-weight: 600;
-    font-family: 'Hind Siliguri', sans-serif;
-  }
-
-  .download-btn {
-    position: relative;
-    background: none;
-    border: none;
-    color: var(--accent);
-    font-size: 18px;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    overflow: hidden;
-  }
-
-  .download-btn::before {
-    content: attr(data-tooltip);
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    margin-right: 8px;
-  }
-
-  .download-btn:hover::before {
-    opacity: 1;
-    right: calc(100% + 8px);
-  }
-
-  .download-btn:hover {
-    background: rgba(255,255,255,0.05);
-  }
-
-  .info-content {
-    flex: 1;
-    padding: 24px;
-    overflow-y: auto;
-  }
-
-  .info-section {
-    margin-bottom: 32px;
-  }
-
-  .info-section h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: var(--accent);
-    font-family: 'Inter', sans-serif;
-  }
-
-  .info-section p {
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--accent-2);
-    margin-bottom: 8px;
-    font-family: 'Hind Siliguri', sans-serif;
-  }
-
-  .feature-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .feature-list li {
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    color: var(--accent-2);
-    font-size: 14px;
-    font-family: 'Hind Siliguri', sans-serif;
-  }
-
-  .feature-list li:last-child {
-    border-bottom: none;
-  }
-
-  /* Stats Panel */
-  .stats-panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(10px);
-    z-index: 150;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  
-  .stats-panel.show {
-    opacity: 1;
-    pointer-events: all;
-  }
-  
-  .stats-content {
-    background: var(--panel);
-    border-radius: 16px;
-    padding: 24px;
-    width: 85%;
-    max-width: 400px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.05);
-  }
-  
-  .stats-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .stats-title {
-    font-size: 18px;
-    font-weight: 600;
-    font-family: 'Hind Siliguri', sans-serif;
-  }
-  
-  .close-stats {
-    background: none;
-    border: none;
-    color: var(--accent-2);
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  
-  .stat-item {
-    background: rgba(255,255,255,0.03);
-    border-radius: 10px;
-    padding: 12px;
-    text-align: center;
-  }
-  
-  .stat-value {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 4px;
-    font-family: 'Inter', sans-serif;
-  }
-  
-  .stat-label {
-    font-size: 12px;
-    color: var(--accent-2);
-    font-family: 'Hind Siliguri', sans-serif;
-  }
-  
-  /* Streak indicator */
-  .streak-indicator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 16px;
-    gap: 8px;
-  }
-  
-  .streak-days {
-    font-size: 16px;
-    font-weight: 600;
-    font-family: 'Hind Siliguri', sans-serif;
-  }
-  
-  .streak-fire {
-    color: #ff9800;
-  }
-
-  /* Header / name area — responsive */
-  .name-area{
-    height:22vh;
-    min-height:100px;
-    display:flex;
-    align-items:flex-end;
-    justify-content:center;
-    padding-bottom:4vh;
-    box-sizing:border-box;
-    text-align:center;
-    position: relative;
-  }
-  .name-large{
-    font-size:8vh;
-    line-height:0.9;
-    font-weight:700;
-    letter-spacing:0.02em;
-    color:var(--accent);
-    text-shadow: 0 2px 18px rgba(255,255,255,0.02);
-    position: relative;
-    font-family: 'Hind Siliguri', sans-serif;
-  }
-  .name-large::after {
-    content: "";
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 2px;
-    background: var(--accent-2);
-    opacity: 0.3;
-  }
-  .subtitle{
-    font-size:12px;
-    color:var(--accent-2);
-    margin-top:12px;
-    letter-spacing: 0.05em;
-    font-family: 'Hind Siliguri', sans-serif;
-  }
-
-  /* central counters area takes remaining flexible space */
-  .center{
-    flex:1 1 auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    gap:24px;
-    padding:10px 18px 120px 18px;
-    box-sizing:border-box;
-  }
-
-  .counters{
-    display:flex;
-    gap:18px;
-    width:100%;
-    max-width:420px;
-    justify-content:space-around;
-    align-items:center;
-  }
-  .counter{
-    flex:1 1 48%;
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:14px;
-    padding:16px;
-    box-sizing:border-box;
-    text-align:center;
-    box-shadow: 0 6px 18px rgba(255,255,255,0.02);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.03);
-    transition: all 0.2s ease;
-  }
-  .counter:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 22px rgba(255,255,255,0.04);
-  }
-  .counter .label{
-    font-size:12px;
-    color:var(--accent-2);
-    margin-bottom:8px;
-    letter-spacing: 0.05em;
-    font-family: 'Hind Siliguri', sans-serif;
-  }
-  .counter .value{
-    font-size:28px;
-    font-weight:700;
-    letter-spacing:0.02em;
-    transition: all 0.3s ease;
-    font-family: 'Inter', sans-serif;
-  }
-  .counter .value.incrementing {
-    animation: pulse 0.3s ease;
-  }
-
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-  }
-
-  /* Floating circular button bottom-center */
-  .floating-wrap{
-    position:fixed;
-    left:50%;
-    transform:translateX(-50%);
-    bottom:28px;
-    z-index:40;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .circle-btn{
-    width:92px;
-    height:92px;
-    border-radius:50%;
-    background:linear-gradient(180deg,#ffffff10,#ffffff06);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow: 0 10px 30px rgba(255,255,255,0.04);
-    border:2px solid rgba(255,255,255,0.06);
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    user-select:none;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .circle-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .circle-btn:hover::before {
-    opacity: 1;
-  }
-  .circle-btn:hover {
-    transform: scale(1.02);
-    box-shadow: 0 12px 36px rgba(255,255,255,0.06);
-  }
-  .circle-btn:active{
-    transform: scale(0.98);
-  }
-  .circle-inner{
-    width:76px;
-    height:76px;
-    border-radius:50%;
-    background: radial-gradient(circle at 30% 30%, #ffffff, #f0f0f0);
-    color:#000;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-    font-weight:700;
-    box-shadow:0 8px 22px rgba(0,0,0,0.45);
-    transition: all 0.2s ease;
-    font-family: 'Hind Siliguri', sans-serif;
-    position: relative;
-    z-index: 2;
-  }
-  .circle-btn:active .circle-inner {
-    transform: scale(0.95);
-  }
-
-  /* Progress indicator for long press */
-  .progress-ring {
-    position: absolute;
-    width: 92px;
-    height: 92px;
-    border-radius: 50%;
-    pointer-events: none;
-    display: none;
-  }
-  
-  .progress-ring-circle {
-    fill: none;
-    stroke: rgba(255,255,255,0.1);
-    stroke-width: 2;
-    stroke-linecap: round;
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-  }
-
-  /* Corner buttons - icons only */
-  .corner-btn {
-    position: fixed;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.03);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255,255,255,0.02);
-    transition: all 0.2s ease;
-    cursor: pointer;
-    z-index: 50;
-    color: var(--accent-2);
-    font-size: 18px;
-  }
-  
-  .corner-btn:hover {
-    background: rgba(255,255,255,0.05);
-    transform: translateY(-1px);
-  }
-
-  .reset-btn {
-    left: 16px;
-    bottom: 28px;
-  }
-
-  .stats-btn {
-    right: 16px;
-    bottom: 28px;
-  }
-
-  /* Info button - Better icon */
-  .info-btn {
-    position: fixed;
-    right: 16px;
-    top: 16px;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.03);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255,255,255,0.02);
-    transition: all 0.2s ease;
-    cursor: pointer;
-    z-index: 50;
-    color: var(--accent-2);
-    font-size: 18px;
-  }
-
-  .info-btn:hover {
-    background: rgba(255,255,255,0.05);
-    transform: translateY(-1px);
-  }
-
-  /* Instruction text */
-  .instruction {
-    margin-top:24px;
-    text-align:center;
-    color:var(--accent-2);
-    font-size:13px;
-    max-width:320px;
-    line-height: 1.5;
-    padding: 0 12px;
-    font-family: 'Hind Siliguri', sans-serif;
-  }
-
-  /* Mala completion notification */
-  .mala-notification {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--gold), var(--gold-light));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #000;
-    font-weight: bold;
-    font-size: 16px;
-    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
-    z-index: 10;
-    pointer-events: none;
-    opacity: 0;
-    font-family: 'Inter', sans-serif;
-    bottom: 120px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  @keyframes floatUp {
-    0% {
-      transform: translateX(-50%) translateY(0) scale(0.5);
-      opacity: 0;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    20% {
-      transform: translateX(-50%) translateY(-20px) scale(1);
-      opacity: 1;
-    }
-    80% {
-      transform: translateX(-50%) translateY(-80px) scale(1);
-      opacity: 0.8;
-    }
-    100% {
-      transform: translateX(-50%) translateY(-120px) scale(0.8);
-      opacity: 0;
-    }
-  }
 
-  /* Celebration animation for mala completion */
-  @keyframes celebrate {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
+    [data-theme="dark"] {
+      /* Dark theme - Clean Black & Grey */
+      --bg: #121212;
+      --display-bg: #1e1e1e;
+      --surface: #2d2d2d;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0b0;
+      --border: #404040;
 
-  .celebrate {
-    animation: celebrate 0.6s ease;
-  }
+      --button-bg: #2d2d2d;
+      --button-hover: #3d3d3d;
+      --button-active: #4d4d4d;
 
-  /* Particle effects */
-  .particle {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--gold);
-    pointer-events: none;
-    opacity: 0;
-    bottom: 100px;
-    left: 50%;
-  }
+      --operator-bg: #404040;
+      --operator-text: #ffffff;
+      --operator-hover: #505050;
 
-  @keyframes particleFloat {
-    0% {
-      transform: translateX(-50%) translateY(0) scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(-50% + var(--p-tx))) translateY(var(--p-ty)) scale(0);
-      opacity: 0;
-    }
-  }
+      --equals-bg: #ffffff;
+      --equals-text: #000000;
+      --equals-hover: #e0e0e0;
 
-  /* Small device adjustments */
-  @media (max-height: 700px) {
-    .name-area {
-      height: 18vh;
-      padding-bottom: 2vh;
+      --clear-color: #ff6b6b;
+      --accent-color: #ffffff;
     }
-    .name-large {
-      font-size: 6vh;
-    }
-    .center {
-      padding-bottom: 100px;
-    }
-  }
 
-  @media (max-width: 350px) {
-    .name-large {
-      font-size: 5vh;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
-    .counters {
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    body {
+      color: var(--text-primary);
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, sans-serif;
+      display: flex;
       flex-direction: column;
-      gap: 12px;
+      transition: var(--transition);
+      font-weight: 600;
+      /* Default bold weight */
     }
-    .counter {
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 24px 20px;
+      flex-shrink: 0;
+      background: var(--bg);
+    }
+
+    .app-title {
+      font-size: 26px;
+      font-weight: 900;
+      /* Extra bold for title */
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+    }
+
+    .theme-toggle {
+      background: var(--button-bg);
+      border: 2px solid var(--border);
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: var(--transition);
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .theme-toggle:active {
+      transform: scale(0.92);
+      background: var(--button-active);
+    }
+
+    .display-section {
+      flex: 1;
+      background: var(--display-bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px 24px;
+      overflow: hidden;
+      min-height: 0;
+      position: relative;
+      margin: 0 20px 20px;
+      border-radius: 20px;
+      border: 2px solid var(--border);
+    }
+
+    .history {
+      font-size: 18px;
+      color: var(--text-secondary);
+      text-align: right;
+      margin-bottom: 16px;
+      min-height: 24px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: var(--transition);
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    .result-container {
+      position: relative;
+      overflow: hidden;
+      text-align: right;
+    }
+
+    .result {
+      font-size: clamp(56px, 14vw, 76px);
+      font-weight: 700;
+      /* Bold for result */
+      text-align: right;
+      line-height: 1.1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: -2px;
+      will-change: transform;
+      transform-origin: right center;
+      display: inline-block;
+      max-width: 100%;
+      direction: ltr;
+      font-feature-settings: "tnum";
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Fix for negative numbers */
+    .negative-number {
+      direction: ltr;
+      unicode-bidi: plaintext;
+    }
+
+    .keypad-section {
+      height: 58vh;
+      max-height: 420px;
+      min-height: 360px;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      padding: 0 24px 24px;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      gap: 14px;
+      height: 100%;
       width: 100%;
     }
-  }
-</style>
-</head>
-<body>
-  <!-- Loading Screen -->
-  <div class="loading-screen" id="loadingScreen">
-    <div class="welcome-message">
-      <div class="welcome-title">राधे राधे बंधु</div>
-      <div class="welcome-subtitle">कृष्ण सदा सहायते</div>
-    </div>
-    <div class="loading-buttons">
-      <button class="loading-btn" id="continueWeb">Continue to Web</button>
-      <button class="loading-btn" id="downloadApp">Download App</button>
-    </div>
-  </div>
 
-  <!-- Main App -->
-  <div class="app-container" id="appContainer">
-    <!-- Info Button with better icon -->
-    <button class="info-btn" id="infoBtn" title="App Information">
-      <i class="fas fa-circle-info"></i>
-    </button>
-
-    <header class="name-area" aria-hidden="false">
-      <div>
-        <div class="name-large">राधा</div>
-        <div class="subtitle">नाम जप</div>
-      </div>
-    </header>
-
-    <main class="center" role="main">
-      <div class="counters" aria-live="polite">
-        <div class="counter" id="dailyCounter">
-          <div class="label">आज के जप</div>
-          <div class="value" id="dailyValue">0</div>
-        </div>
-        <div class="counter" id="lifeCounter">
-          <div class="label">जमाना (Lifetime)</div>
-          <div class="value" id="lifeValue">0</div>
-        </div>
-      </div>
-
-      <div class="instruction">
-        टैप करके जप बढ़ाएँ — लंबे दबाव से तेज़ जप। गिनती स्थानीय रूप से संचित रहती है।
-      </div>
-    </main>
-
-    <!-- Corner buttons with icons only -->
-    <button class="corner-btn reset-btn" id="resetBtn" title="Reset to last checkpoint">
-      <i class="fas fa-undo"></i>
-    </button>
-
-    <button class="corner-btn stats-btn" id="statsBtn" title="Statistics">
-      <i class="fas fa-chart-bar"></i>
-    </button>
-
-    <div class="floating-wrap">
-      <svg class="progress-ring" id="progressRing">
-        <circle class="progress-ring-circle" r="42" cx="46" cy="46"></circle>
-      </svg>
-      <div class="circle-btn" id="mainBtn" role="button" aria-pressed="false" aria-label="जप बटन">
-        <div class="circle-inner" id="innerBtn">जय</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Stats Panel -->
-  <div class="stats-panel" id="statsPanel">
-    <div class="stats-content">
-      <div class="stats-header">
-        <div class="stats-title">जप आँकड़े</div>
-        <button class="close-stats" id="closeStats"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <div class="stat-value" id="statToday">0</div>
-          <div class="stat-label">आज के जप</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value" id="statWeek">0</div>
-          <div class="stat-label">इस सप्ताह</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value" id="statMonth">0</div>
-          <div class="stat-label">इस महीने</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value" id="statTotal">0</div>
-          <div class="stat-label">कुल जप</div>
-        </div>
-      </div>
-      <div class="streak-indicator">
-        <div class="streak-fire"><i class="fas fa-fire"></i></div>
-        <div class="streak-days" id="streakDays">0 दिन लगातार</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Info Screen -->
-  <div class="info-screen" id="infoScreen">
-    <div class="info-header">
-      <button class="back-btn" id="backBtn">
-        <i class="fas fa-arrow-left"></i>
-      </button>
-      <div class="info-title">App Information</div>
-      <button class="download-btn" id="infoDownloadBtn" data-tooltip="Download App">
-        <i class="fas fa-download"></i>
-      </button>
-    </div>
-    <div class="info-content">
-      <div class="info-section">
-        <h3>Developed With Love</h3>
-        <p>This app is developed with devotion to Radha Krishna. May their blessings be with you always.</p>
-        <p><strong>राधे राधे</strong></p>
-      </div>
-
-      <div class="info-section">
-        <h3>How to Use</h3>
-        <ul class="feature-list">
-          <li>• Tap the center button to increment count by 1</li>
-          <li>• Long press for continuous counting</li>
-          <li>• Every 108 counts completes one mala</li>
-          <li>• Use reset button to go back to last checkpoint</li>
-          <li>• Your progress is saved automatically</li>
-        </ul>
-      </div>
-
-      <div class="info-section">
-        <h3>Features</h3>
-        <ul class="feature-list">
-          <li>• Beautiful minimalist design</li>
-          <li>• Daily and lifetime counters</li>
-          <li>• Mala completion celebrations</li>
-          <li>• Progress statistics</li>
-          <li>• Works offline</li>
-          <li>• No ads, completely free</li>
-        </ul>
-      </div>
-
-      <div class="info-section">
-        <h3>Spiritual Significance</h3>
-        <p>Chanting Radha's name brings peace, happiness and spiritual progress. Regular japa purifies the heart and connects us with divine love.</p>
-        <p>"राधा नाम महामंत्र, सब सिद्धि करे दातार"</p>
-      </div>
-    </div>
-  </div>
-
-<script>
-(function(){
-  // Loading Screen Logic
-  const loadingScreen = document.getElementById('loadingScreen');
-  const appContainer = document.getElementById('appContainer');
-  const continueWeb = document.getElementById('continueWeb');
-  const downloadApp = document.getElementById('downloadApp');
-
-  continueWeb.addEventListener('click', function() {
-    loadingScreen.classList.add('hidden');
-    setTimeout(() => {
-      appContainer.classList.add('active');
-    }, 500);
-  });
-
-  downloadApp.addEventListener('click', function() {
-    alert('App download link will be added soon!');
-  });
-
-  // Info Screen Logic
-  const infoBtn = document.getElementById('infoBtn');
-  const infoScreen = document.getElementById('infoScreen');
-  const backBtn = document.getElementById('backBtn');
-  const infoDownloadBtn = document.getElementById('infoDownloadBtn');
-
-  infoBtn.addEventListener('click', function() {
-    infoScreen.classList.add('active');
-  });
-
-  backBtn.addEventListener('click', function() {
-    infoScreen.classList.remove('active');
-  });
-
-  infoDownloadBtn.addEventListener('click', function() {
-    alert('App download link will be added soon!');
-  });
-
-  // Stats Panel Logic
-  const statsBtn = document.getElementById('statsBtn');
-  const statsPanel = document.getElementById('statsPanel');
-  const closeStats = document.getElementById('closeStats');
-
-  statsBtn.addEventListener('click', function() {
-    loadStats();
-    statsPanel.classList.add('show');
-  });
-
-  closeStats.addEventListener('click', function() {
-    statsPanel.classList.remove('show');
-  });
-
-  statsPanel.addEventListener('click', function(e) {
-    if (e.target === statsPanel) {
-      statsPanel.classList.remove('show');
+    .btn {
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 700;
+      /* Bold for all buttons */
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      background: var(--button-bg);
+      color: var(--text-primary);
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-button);
+      font-family: 'Poppins', sans-serif;
+      border: 2px solid var(--border);
     }
-  });
 
-  // keys
-  const LS_LIFE = 'radha_lifetime_v1';
-  const LS_DAY = 'radha_daily_v1';
-  const LS_DAY_DATE = 'radha_daily_date_v1';
-  const LS_WEEKLY = 'radha_weekly_v1';
-  const LS_MONTHLY = 'radha_monthly_v1';
-  const LS_STREAK = 'radha_streak_v1';
-  const LS_LAST_DATE = 'radha_last_date_v1';
-  const LS_CHECKPOINT = 'radha_checkpoint_v1';
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: currentColor;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      border-radius: 18px;
+    }
 
-  // elements
-  const dailyValue = document.getElementById('dailyValue');
-  const lifeValue = document.getElementById('lifeValue');
-  const mainBtn = document.getElementById('mainBtn');
-  const innerBtn = document.getElementById('innerBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const progressRing = document.getElementById('progressRing');
-  const progressCircle = progressRing.querySelector('circle');
-  const statToday = document.getElementById('statToday');
-  const statWeek = document.getElementById('statWeek');
-  const statMonth = document.getElementById('statMonth');
-  const statTotal = document.getElementById('statTotal');
-  const streakDays = document.getElementById('streakDays');
+    .btn:active::before {
+      opacity: 0.1;
+    }
 
-  // Mala completion messages
-  const malaMessages = [
-    "एक माला पूर्ण! 🌸",
-    "१०८ जप पूरे! ✨",
-    "शुभ माला! 🕉️",
-    "राधे राधे! 💫",
-    "भक्ति बढ़ती रहे! 🙏"
-  ];
+    .btn:active {
+      transform: scale(0.94);
+    }
 
-  // Set up progress ring
-  const radius = progressCircle.r.baseVal.value;
-  const circumference = radius * 2 * Math.PI;
-  progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-  progressCircle.style.strokeDashoffset = circumference;
+    .btn.operator {
+      background: var(--operator-bg);
+      color: var(--operator-text);
+      font-weight: 800;
+      /* Extra bold for operators */
+      font-size: 24px;
+    }
 
-  // load values
-  function todayKey(){
-    const d = new Date();
-    return d.getFullYear() + '-' + (d.getMonth()+1).toString().padStart(2,'0') + '-' + d.getDate().toString().padStart(2,'0');
-  }
-  
-  function weekKey(){
-    const d = new Date();
-    const firstDay = new Date(d.setDate(d.getDate() - d.getDay()));
-    return firstDay.getFullYear() + '-' + (firstDay.getMonth()+1).toString().padStart(2,'0') + '-' + firstDay.getDate().toString().padStart(2,'0');
-  }
-  
-  function monthKey(){
-    const d = new Date();
-    return d.getFullYear() + '-' + (d.getMonth()+1).toString().padStart(2,'0');
-  }
+    .btn.operator:active {
+      background: var(--operator-hover);
+    }
 
-  function updateStreak() {
-    const today = todayKey();
-    const lastDate = localStorage.getItem(LS_LAST_DATE) || '';
-    const streak = parseInt(localStorage.getItem(LS_STREAK) || '0', 10);
-    
-    if (lastDate !== today) {
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yesterdayKey = yesterday.getFullYear() + '-' + (yesterday.getMonth()+1).toString().padStart(2,'0') + '-' + yesterday.getDate().toString().padStart(2,'0');
-      
-      if (lastDate === yesterdayKey) {
-        // Consecutive day
-        localStorage.setItem(LS_STREAK, String(streak + 1));
-      } else if (lastDate !== today) {
-        // Broken streak
-        localStorage.setItem(LS_STREAK, '1');
+    .btn.equals {
+      background: var(--equals-bg);
+      color: var(--equals-text);
+      font-weight: 800;
+      /* Extra bold for equals */
+      font-size: 26px;
+    }
+
+    .btn.equals:active {
+      background: var(--equals-hover);
+    }
+
+    .btn.clear {
+      color: var(--clear-color);
+      font-weight: 800;
+      /* Extra bold for clear */
+    }
+
+    .btn.number {
+      font-weight: 600;
+      /* Semi-bold for numbers */
+      font-size: 26px;
+    }
+
+    .btn i {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    /* Enhanced number transitions */
+    .number-transition {
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Button press animation */
+    .btn-press {
+      animation: btnPress 0.3s ease;
+    }
+
+    @keyframes btnPress {
+      0% {
+        transform: scale(1);
       }
-      
-      localStorage.setItem(LS_LAST_DATE, today);
-    }
-  }
 
-  function load(){
-    let life = parseInt(localStorage.getItem(LS_LIFE) || '0',10);
-    let day = parseInt(localStorage.getItem(LS_DAY) || '0',10);
-    let storedDate = localStorage.getItem(LS_DAY_DATE) || '';
-    const nowKey = todayKey();
-    
-    if(storedDate !== nowKey){
-      // new day -> reset daily
-      day = 0;
-      localStorage.setItem(LS_DAY_DATE, nowKey);
-      localStorage.setItem(LS_DAY, '0');
-      
-      // Update weekly and monthly counts
-      updateWeeklyMonthly();
-    }
-    
-    updateStreak();
-    dailyValue.textContent = day;
-    lifeValue.textContent = life;
-    
-    // Set initial checkpoint
-    if (!localStorage.getItem(LS_CHECKPOINT)) {
-      localStorage.setItem(LS_CHECKPOINT, '0');
-    }
-  }
+      50% {
+        transform: scale(0.94);
+      }
 
-  // Update weekly and monthly data
-  function updateWeeklyMonthly() {
-    const todayCount = parseInt(localStorage.getItem(LS_DAY) || '0', 10);
-    const currentWeek = weekKey();
-    const currentMonth = monthKey();
-    
-    // Weekly data
-    let weeklyData = JSON.parse(localStorage.getItem(LS_WEEKLY) || '{}');
-    if (weeklyData.week !== currentWeek) {
-      weeklyData = { week: currentWeek, count: 0 };
+      100% {
+        transform: scale(1);
+      }
     }
-    weeklyData.count += todayCount;
-    localStorage.setItem(LS_WEEKLY, JSON.stringify(weeklyData));
-    
-    // Monthly data
-    let monthlyData = JSON.parse(localStorage.getItem(LS_MONTHLY) || '{}');
-    if (monthlyData.month !== currentMonth) {
-      monthlyData = { month: currentMonth, count: 0 };
+
+    /* Focus states for accessibility */
+    .btn:focus-visible {
+      outline: 3px solid var(--accent-color);
+      outline-offset: 2px;
     }
-    monthlyData.count += todayCount;
-    localStorage.setItem(LS_MONTHLY, JSON.stringify(monthlyData));
-  }
 
-  // save helpers
-  function saveDay(v){ localStorage.setItem(LS_DAY, String(v)); }
-  function saveLife(v){ localStorage.setItem(LS_LIFE, String(v)); }
+    /* Hover effects for desktop */
+    @media (hover: hover) {
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      }
+    }
 
-  // Create mala completion notification
-  function createMalaNotification() {
-    const floatingWrap = document.querySelector('.floating-wrap');
-    const notification = document.createElement('div');
-    notification.className = 'mala-notification';
-    notification.textContent = '108';
-    
-    floatingWrap.appendChild(notification);
-    
-    // Animate the notification
-    notification.style.animation = `floatUp 2s ease forwards`;
-    
-    // Remove after animation
-    setTimeout(() => {
-      notification.remove();
-    }, 2000);
-  }
+    /* Responsive adjustments */
+    @media (max-height: 700px) {
+      .keypad-section {
+        height: 52vh;
+        padding: 0 20px 20px;
+      }
 
-  // Create particle effect
-  function createParticles(count) {
-    const floatingWrap = document.querySelector('.floating-wrap');
-    
-    for (let i = 0; i < count; i++) {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      
-      const angle = Math.random() * Math.PI * 2;
-      const distance = 80 + Math.random() * 60;
-      const tx = Math.cos(angle) * distance;
-      const ty = - (100 + Math.random() * 100);
-      
-      particle.style.setProperty('--p-tx', `${tx}px`);
-      particle.style.setProperty('--p-ty', `${ty}px`);
-      
-      floatingWrap.appendChild(particle);
-      
-      // Animate the particle
-      particle.style.animation = `particleFloat 1.5s ease forwards`;
-      
-      // Remove after animation
+      .display-section {
+        padding: 28px 20px;
+        margin: 0 16px 16px;
+      }
+
+      .btn {
+        font-size: 24px;
+        border-radius: 16px;
+      }
+
+      .result {
+        font-size: clamp(48px, 12vw, 64px);
+      }
+
+      .history {
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .header {
+        padding: 20px 20px 16px;
+      }
+
+      .display-section {
+        padding: 24px 20px;
+        margin: 0 12px 12px;
+      }
+
+      .keypad-section {
+        padding: 0 20px 20px;
+        gap: 12px;
+      }
+
+      .btn {
+        font-size: 22px;
+        border-radius: 14px;
+      }
+
+      .result {
+        font-size: clamp(42px, 11vw, 56px);
+      }
+
+      .history {
+        font-size: 15px;
+      }
+
+      .app-title {
+        font-size: 22px;
+      }
+    }
+
+    /* Safe area support */
+    @supports(padding: max(0px)) {
+
+      .header,
+      .display-section,
+      .keypad-section {
+        padding-left: max(24px, env(safe-area-inset-left));
+        padding-right: max(24px, env(safe-area-inset-right));
+      }
+
+      .keypad-section {
+        padding-bottom: max(24px, env(safe-area-inset-bottom));
+      }
+    }
+
+    /* Loading animation */
+    @keyframes subtleGlow {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.8;
+      }
+    }
+
+    .calculating {
+      animation: subtleGlow 1s ease-in-out infinite;
+    }
+
+    /* Success animation */
+    @keyframes successPulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.02);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .success {
+      animation: successPulse 0.6s ease;
+    }
+
+    /* Icon fallback with better styling */
+    .icon-fallback {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    /* Fix for long numbers */
+    .result-long {
+      font-size: clamp(48px, 11vw, 64px);
+    }
+
+    .result-very-long {
+      font-size: clamp(42px, 9vw, 56px);
+    }
+
+    /* Visual feedback for operations */
+    .operation-active {
+      background: var(--accent-color) !important;
+      color: var(--button-bg) !important;
+    }
+
+    /* Preload icons */
+    .icon-preload {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+
+  <!-- Preload critical icons -->
+  <div class="icon-preload">
+    <i class="fas fa-undo-alt"></i>
+    <i class="fas fa-plus-minus"></i>
+    <i class="fas fa-percentage"></i>
+    <i class="fas fa-divide"></i>
+    <i class="fas fa-times"></i>
+    <i class="fas fa-minus"></i>
+    <i class="fas fa-plus"></i>
+    <i class="fas fa-backspace"></i>
+    <i class="fas fa-equals"></i>
+    <i class="fas fa-moon"></i>
+    <i class="fas fa-sun"></i>
+  </div>
+</head>
+
+<body>
+  <div class="header">
+    <div class="app-title">CalcPlay</div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <i class="fas fa-moon"></i>
+    </button>
+  </div>
+
+  <div class="display-section">
+    <div class="history" id="history"></div>
+    <div class="result-container">
+      <div class="result number-transition" id="result">0</div>
+    </div>
+  </div>
+
+  <div class="keypad-section">
+    <div class="keypad">
+      <!-- Row 1 -->
+      <button class="btn clear" data-action="clear" aria-label="Clear">
+        <i class="fas fa-undo-alt"></i>
+      </button>
+      <button class="btn operator" data-action="toggleSign" aria-label="Toggle sign">
+        <i class="fas fa-plus-minus"></i>
+      </button>
+      <button class="btn operator" data-action="percent" aria-label="Percentage">
+        <i class="fas fa-percentage"></i>
+      </button>
+      <button class="btn operator" data-action="divide" aria-label="Divide">
+        <i class="fas fa-divide"></i>
+      </button>
+
+      <!-- Row 2 -->
+      <button class="btn number" data-number="7" aria-label="7">7</button>
+      <button class="btn number" data-number="8" aria-label="8">8</button>
+      <button class="btn number" data-number="9" aria-label="9">9</button>
+      <button class="btn operator" data-action="multiply" aria-label="Multiply">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- Row 3 -->
+      <button class="btn number" data-number="4" aria-label="4">4</button>
+      <button class="btn number" data-number="5" aria-label="5">5</button>
+      <button class="btn number" data-number="6" aria-label="6">6</button>
+      <button class="btn operator" data-action="subtract" aria-label="Subtract">
+        <i class="fas fa-minus"></i>
+      </button>
+
+      <!-- Row 4 -->
+      <button class="btn number" data-number="1" aria-label="1">1</button>
+      <button class="btn number" data-number="2" aria-label="2">2</button>
+      <button class="btn number" data-number="3" aria-label="3">3</button>
+      <button class="btn operator" data-action="add" aria-label="Add">
+        <i class="fas fa-plus"></i>
+      </button>
+
+      <!-- Row 5 -->
+      <button class="btn number" data-number="0" aria-label="0">0</button>
+      <button class="btn" data-action="decimal" aria-label="Decimal point">.</button>
+      <button class="btn" data-action="backspace" aria-label="Backspace">
+        <i class="fas fa-backspace"></i>
+      </button>
+      <button class="btn equals" data-action="calculate" aria-label="Equals">
+        <i class="fas fa-equals"></i>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Enhanced icon loading detection
+    function checkIconsLoaded() {
+      return new Promise((resolve) => {
+        const testIcon = document.createElement('i');
+        testIcon.className = 'fas fa-circle';
+        testIcon.style.position = 'absolute';
+        testIcon.style.left = '-100px';
+        document.body.appendChild(testIcon);
+
+        setTimeout(() => {
+          const computedStyle = window.getComputedStyle(testIcon);
+          const fontFamily = computedStyle.fontFamily || '';
+          const isLoaded = fontFamily.includes('Font Awesome');
+
+          document.body.removeChild(testIcon);
+          resolve(isLoaded);
+        }, 100);
+      });
+    }
+
+    // Apply text fallbacks if icons don't load
+    function applyIconFallbacks() {
+      console.log('Applying icon fallbacks...');
+      document.querySelectorAll('.btn i').forEach(icon => {
+        const parent = icon.parentElement;
+        const action = parent.getAttribute('data-action') || '';
+        const number = parent.getAttribute('data-number');
+
+        if (number) return; // Keep numbers as they are
+
+        let text = '';
+        switch (action) {
+          case 'clear': text = 'C'; break;
+          case 'toggleSign': text = '+/-'; break;
+          case 'percent': text = '%'; break;
+          case 'divide': text = '÷'; break;
+          case 'multiply': text = '×'; break;
+          case 'subtract': text = '−'; break;
+          case 'add': text = '+'; break;
+          case 'backspace': text = '⌫'; break;
+          case 'calculate': text = '='; break;
+          case 'decimal': text = '.'; break;
+        }
+
+        if (text) {
+          parent.innerHTML = `<span class="icon-fallback">${text}</span>`;
+        }
+      });
+
+      // Also update theme toggle
+      const themeToggle = document.getElementById('themeToggle');
+      if (themeToggle) {
+        themeToggle.innerHTML = isDarkMode ? '☀️' : '🌙';
+      }
+    }
+
+    // Initialize icons
+    async function initializeIcons() {
+      const iconsLoaded = await checkIconsLoaded();
+
+      if (!iconsLoaded) {
+        console.warn('Font Awesome icons not detected, applying fallbacks...');
+        applyIconFallbacks();
+      } else {
+        console.log('Font Awesome icons loaded successfully!');
+      }
+    }
+
+    // Calculator state
+    let currentInput = '0';
+    let previousInput = '';
+    let operation = null;
+    let shouldResetInput = false;
+    let isDarkMode = false;
+    let isCalculating = false;
+
+    // DOM elements
+    const historyDisplay = document.getElementById('history');
+    const resultDisplay = document.getElementById('result');
+
+    // Enhanced button press animation
+    function animateButton(button) {
+      button.classList.add('btn-press');
       setTimeout(() => {
-        particle.remove();
-      }, 1500);
+        button.classList.remove('btn-press');
+      }, 300);
     }
-  }
 
-  // increment logic
-  function increment(n){
-    const life = parseInt(localStorage.getItem(LS_LIFE) || '0',10) + n;
-    const day = parseInt(localStorage.getItem(LS_DAY) || '0',10) + n;
-    saveLife(life); saveDay(day);
-    
-    // Add animation to counter values
-    dailyValue.classList.add('incrementing');
-    lifeValue.classList.add('incrementing');
-    setTimeout(() => {
-      dailyValue.classList.remove('incrementing');
-      lifeValue.classList.remove('incrementing');
-    }, 300);
-    
-    dailyValue.textContent = day;
-    lifeValue.textContent = life;
-    
-    // Check for mala completion (every 108 counts)
-    if (life % 108 === 0 && life > 0) {
-      // Set checkpoint at mala completion
-      localStorage.setItem(LS_CHECKPOINT, String(life));
-      
-      // Celebrate mala completion
-      innerBtn.classList.add('celebrate');
+    // Update display with enhanced animations and proper negative number handling
+    function updateDisplay() {
+      const newResult = formatNumber(currentInput);
+
+      // Enhanced smooth transition
+      resultDisplay.style.opacity = '0';
+      resultDisplay.style.transform = 'translateY(8px) scale(0.98)';
+
       setTimeout(() => {
-        innerBtn.classList.remove('celebrate');
-      }, 600);
-      
-      // Show mala completion notification
-      createMalaNotification();
-      
-      // Create particles
-      createParticles(15);
-      
-      // Show random mala message as alert
-      const randomMessage = malaMessages[Math.floor(Math.random() * malaMessages.length)];
-      alert(randomMessage);
+        resultDisplay.textContent = newResult;
+
+        // Apply proper styling for negative numbers
+        if (currentInput.startsWith('-')) {
+          resultDisplay.classList.add('negative-number');
+        } else {
+          resultDisplay.classList.remove('negative-number');
+        }
+
+        // Adjust font size for long numbers
+        if (newResult.length > 12) {
+          resultDisplay.classList.add('result-very-long');
+          resultDisplay.classList.remove('result-long');
+        } else if (newResult.length > 8) {
+          resultDisplay.classList.add('result-long');
+          resultDisplay.classList.remove('result-very-long');
+        } else {
+          resultDisplay.classList.remove('result-long', 'result-very-long');
+        }
+
+        resultDisplay.style.opacity = '1';
+        resultDisplay.style.transform = 'translateY(0) scale(1)';
+      }, 50);
+
+      // Update history with fade animation
+      const newHistory = operation && previousInput
+        ? `${formatNumber(previousInput)} ${getOperationSymbol(operation)}`
+        : (previousInput ? formatNumber(previousInput) : '');
+
+      historyDisplay.style.opacity = '0';
+      setTimeout(() => {
+        historyDisplay.textContent = newHistory;
+        historyDisplay.style.opacity = '0.9';
+      }, 100);
     }
-    
-    // tiny ripple animation
-    innerBtn.animate([{transform:'scale(1)'},{transform:'scale(0.94)'},{transform:'scale(1)'}],{duration:220,easing:'ease-out'});
-  }
 
-  // Reset to last checkpoint
-  resetBtn.addEventListener('click', function(){
-    const checkpoint = parseInt(localStorage.getItem(LS_CHECKPOINT) || '0', 10);
-    const currentLife = parseInt(localStorage.getItem(LS_LIFE) || '0', 10);
-    const currentDay = parseInt(localStorage.getItem(LS_DAY) || '0', 10);
-    
-    if (currentLife === checkpoint) {
-      alert('आप पहले से ही अंतिम चेकपॉइंट पर हैं');
-      return;
+    // Format number with commas and proper negative handling
+    function formatNumber(num) {
+      if (num === '' || num === '-') return '0';
+
+      const isNegative = num.startsWith('-');
+      const absoluteNum = isNegative ? num.slice(1) : num;
+
+      if (absoluteNum.includes('.')) {
+        const parts = absoluteNum.split('.');
+        const integerPart = parts[0] || '0';
+        const decimalPart = parts[1] || '';
+
+        // Properly format with commas and handle negative sign
+        const formattedInteger = parseInt(integerPart).toLocaleString();
+        return `${isNegative ? '-' : ''}${formattedInteger}.${decimalPart}`;
+      }
+
+      // Properly format without decimal and handle negative sign
+      const formattedNumber = parseInt(absoluteNum).toLocaleString();
+      return `${isNegative ? '-' : ''}${formattedNumber}`;
     }
-    
-    const diff = currentLife - checkpoint;
-    
-    // Reset to checkpoint
-    saveLife(checkpoint);
-    saveDay(Math.max(0, currentDay - diff));
-    
-    dailyValue.textContent = Math.max(0, currentDay - diff);
-    lifeValue.textContent = checkpoint;
-    
-    alert(`अंतिम चेकपॉइंट पर वापस: ${checkpoint} जप`);
-  });
 
-  // Load stats for the stats panel
-  function loadStats() {
-    const today = parseInt(localStorage.getItem(LS_DAY) || '0', 10);
-    const life = parseInt(localStorage.getItem(LS_LIFE) || '0', 10);
-    const weeklyData = JSON.parse(localStorage.getItem(LS_WEEKLY) || '{"count":0}');
-    const monthlyData = JSON.parse(localStorage.getItem(LS_MONTHLY) || '{"count":0}');
-    const streak = parseInt(localStorage.getItem(LS_STREAK) || '0', 10);
-    
-    statToday.textContent = today;
-    statWeek.textContent = weeklyData.count;
-    statMonth.textContent = monthlyData.count;
-    statTotal.textContent = life;
-    streakDays.textContent = `${streak} दिन लगातार`;
-  }
-
-  // main button interactions: tap increments by 1, long press auto increments
-  let holdInterval = null;
-  let holdTimeout = null;
-  let holdStartTime = null;
-  
-  function setProgress(percent) {
-    const offset = circumference - percent / 100 * circumference;
-    progressCircle.style.strokeDashoffset = offset;
-  }
-  
-  mainBtn.addEventListener('pointerdown', function(e){
-    e.preventDefault();
-    // immediate increment
-    increment(1);
-    holdStartTime = Date.now();
-    
-    // start a timeout that after 400ms will start auto-increment every 120ms
-    holdTimeout = setTimeout(()=>{
-      // Show progress ring
-      progressRing.style.display = 'block';
-      
-      holdInterval = setInterval(()=>{
-        increment(1);
-        const elapsed = Date.now() - holdStartTime;
-        const progress = Math.min(100, (elapsed - 400) / 2000 * 100);
-        setProgress(progress);
-      }, 120);
-    }, 400);
-  });
-  
-  function upHandler(){
-    clearTimeout(holdTimeout);
-    if(holdInterval){ 
-      clearInterval(holdInterval); 
-      holdInterval=null; 
+    // Get symbol for operation
+    function getOperationSymbol(op) {
+      switch (op) {
+        case 'add': return '+';
+        case 'subtract': return '−';
+        case 'multiply': return '×';
+        case 'divide': return '÷';
+        default: return '';
+      }
     }
-    
-    // Hide progress ring
-    progressRing.style.display = 'none';
-    setProgress(0);
-    
-    holdStartTime = null;
-  }
-  
-  mainBtn.addEventListener('pointerup', upHandler);
-  mainBtn.addEventListener('pointercancel', upHandler);
-  mainBtn.addEventListener('pointerleave', upHandler);
 
-  // initialize
-  load();
+    // Enhanced number input with proper validation
+    function appendNumber(number) {
+      if (shouldResetInput) {
+        currentInput = number;
+        shouldResetInput = false;
+      } else if (currentInput === '0' && number !== '.') {
+        currentInput = number;
+      } else if (currentInput.length < 15) { // Prevent too long numbers
+        currentInput += number;
+      }
+      updateDisplay();
+    }
 
-  // ensure daily reset at midnight while app open: schedule next reset
-  function scheduleMidnightReset(){
-    const now = new Date();
-    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1,0,0,5);
-    const ms = next - now;
-    setTimeout(function(){
-      localStorage.setItem(LS_DAY, '0');
-      localStorage.setItem(LS_DAY_DATE, todayKey());
-      dailyValue.textContent = '0';
-      scheduleMidnightReset();
-    }, ms);
-  }
-  scheduleMidnightReset();
-})();
-</script>
+    // Add decimal point with proper validation
+    function appendDecimal() {
+      if (shouldResetInput) {
+        currentInput = '0.';
+        shouldResetInput = false;
+      } else if (!currentInput.includes('.') && currentInput.length < 14) {
+        currentInput += '.';
+      }
+      updateDisplay();
+    }
+
+    // Set operation with visual feedback
+    function setOperation(op) {
+      if (operation && !shouldResetInput) {
+        calculate();
+      }
+      previousInput = currentInput;
+      operation = op;
+      shouldResetInput = true;
+
+      // Visual feedback for active operation
+      document.querySelectorAll('.btn.operator').forEach(btn => {
+        btn.classList.remove('operation-active');
+      });
+      const activeBtn = document.querySelector(`[data-action="${op}"]`);
+      if (activeBtn) {
+        activeBtn.classList.add('operation-active');
+      }
+
+      updateDisplay();
+    }
+
+    // Calculate result with loading state
+    function calculate() {
+      if (!operation || shouldResetInput || isCalculating) return;
+
+      isCalculating = true;
+      resultDisplay.classList.add('calculating');
+
+      setTimeout(() => {
+        const prev = parseFloat(previousInput.replace(/,/g, ''));
+        const curr = parseFloat(currentInput.replace(/,/g, ''));
+
+        if (isNaN(prev) || isNaN(curr)) {
+          isCalculating = false;
+          resultDisplay.classList.remove('calculating');
+          return;
+        }
+
+        let result;
+        switch (operation) {
+          case 'add':
+            result = prev + curr;
+            break;
+          case 'subtract':
+            result = prev - curr;
+            break;
+          case 'multiply':
+            result = prev * curr;
+            break;
+          case 'divide':
+            if (curr === 0) {
+              showError('Cannot divide by zero');
+              isCalculating = false;
+              resultDisplay.classList.remove('calculating');
+              return;
+            }
+            result = prev / curr;
+            break;
+          default:
+            isCalculating = false;
+            resultDisplay.classList.remove('calculating');
+            return;
+        }
+
+        // Enhanced rounding and validation
+        result = Math.round(result * 100000000) / 100000000;
+
+        // Prevent extremely large numbers
+        if (Math.abs(result) > 9999999999999) {
+          showError('Number too large');
+          isCalculating = false;
+          resultDisplay.classList.remove('calculating');
+          return;
+        }
+
+        currentInput = result.toString();
+        operation = null;
+        previousInput = '';
+        shouldResetInput = true;
+
+        // Success animation
+        resultDisplay.classList.add('success');
+        setTimeout(() => {
+          resultDisplay.classList.remove('success');
+        }, 600);
+
+        // Remove active operation highlight
+        document.querySelectorAll('.btn.operator').forEach(btn => {
+          btn.classList.remove('operation-active');
+        });
+
+        isCalculating = false;
+        resultDisplay.classList.remove('calculating');
+        updateDisplay();
+      }, 300);
+    }
+
+    // Clear all
+    function clearAll() {
+      currentInput = '0';
+      previousInput = '';
+      operation = null;
+      shouldResetInput = false;
+
+      // Remove active operation highlight
+      document.querySelectorAll('.btn.operator').forEach(btn => {
+        btn.classList.remove('operation-active');
+      });
+
+      updateDisplay();
+    }
+
+    // Toggle sign with proper validation
+    function toggleSign() {
+      if (currentInput !== '0' && currentInput !== '') {
+        if (currentInput.startsWith('-')) {
+          currentInput = currentInput.slice(1);
+        } else {
+          currentInput = '-' + currentInput;
+        }
+      }
+      updateDisplay();
+    }
+
+    // Calculate percentage
+    function percent() {
+      const num = parseFloat(currentInput.replace(/,/g, ''));
+      if (!isNaN(num)) {
+        currentInput = (num / 100).toString();
+        updateDisplay();
+      }
+    }
+
+    // Enhanced backspace
+    function backspace() {
+      if (currentInput.length > 1) {
+        currentInput = currentInput.slice(0, -1);
+        // Ensure we don't end with just a minus sign
+        if (currentInput === '-') {
+          currentInput = '0';
+        }
+      } else {
+        currentInput = '0';
+      }
+      updateDisplay();
+    }
+
+    // Show error with better styling
+    function showError(message) {
+      resultDisplay.textContent = 'Error';
+      historyDisplay.textContent = message;
+      resultDisplay.style.color = 'var(--clear-color)';
+
+      setTimeout(() => {
+        resultDisplay.style.color = '';
+        clearAll();
+      }, 2000);
+    }
+
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      isDarkMode = !isDarkMode;
+      document.body.setAttribute('data-theme', isDarkMode ? 'dark' : '');
+
+      // Update theme toggle icon
+      if (document.fonts.check('1em "Font Awesome 6 Free"') || document.fonts.check('1em "Font Awesome 6 Pro"')) {
+        themeToggle.innerHTML = isDarkMode
+          ? '<i class="fas fa-sun"></i>'
+          : '<i class="fas fa-moon"></i>';
+      } else {
+        themeToggle.innerHTML = isDarkMode ? '☀️' : '🌙';
+      }
+
+      localStorage.setItem('calculator-theme', isDarkMode ? 'dark' : 'light');
+    });
+
+    // Load saved theme
+    function loadTheme() {
+      const savedTheme = localStorage.getItem('calculator-theme');
+      if (savedTheme === 'dark') {
+        isDarkMode = true;
+        document.body.setAttribute('data-theme', 'dark');
+        if (document.fonts.check('1em "Font Awesome 6 Free"') || document.fonts.check('1em "Font Awesome 6 Pro"')) {
+          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+          themeToggle.innerHTML = '☀️';
+        }
+      }
+    }
+
+    // Enhanced button event listeners
+    document.querySelectorAll('[data-number]').forEach(button => {
+      button.addEventListener('click', (e) => {
+        appendNumber(button.getAttribute('data-number'));
+        animateButton(e.currentTarget);
+      });
+    });
+
+    document.querySelectorAll('[data-action]').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const action = button.getAttribute('data-action');
+
+        // Button press animation
+        animateButton(e.currentTarget);
+
+        switch (action) {
+          case 'clear':
+            clearAll();
+            break;
+          case 'decimal':
+            appendDecimal();
+            break;
+          case 'toggleSign':
+            toggleSign();
+            break;
+          case 'percent':
+            percent();
+            break;
+          case 'backspace':
+            backspace();
+            break;
+          case 'calculate':
+            calculate();
+            break;
+          default:
+            setOperation(action);
+        }
+      });
+    });
+
+    // Enhanced keyboard support
+    document.addEventListener('keydown', (event) => {
+      if (event.key >= '0' && event.key <= '9') {
+        appendNumber(event.key);
+        const button = document.querySelector(`[data-number="${event.key}"]`);
+        if (button) animateButton(button);
+      } else if (event.key === '.') {
+        appendDecimal();
+        const button = document.querySelector('[data-action="decimal"]');
+        if (button) animateButton(button);
+      } else if (event.key === '+') {
+        setOperation('add');
+        const button = document.querySelector('[data-action="add"]');
+        if (button) animateButton(button);
+      } else if (event.key === '-') {
+        setOperation('subtract');
+        const button = document.querySelector('[data-action="subtract"]');
+        if (button) animateButton(button);
+      } else if (event.key === '*' || event.key === 'x') {
+        setOperation('multiply');
+        const button = document.querySelector('[data-action="multiply"]');
+        if (button) animateButton(button);
+      } else if (event.key === '/') {
+        setOperation('divide');
+        const button = document.querySelector('[data-action="divide"]');
+        if (button) animateButton(button);
+      } else if (event.key === 'Enter' || event.key === '=') {
+        event.preventDefault();
+        calculate();
+        const button = document.querySelector('[data-action="calculate"]');
+        if (button) animateButton(button);
+      } else if (event.key === 'Escape' || event.key === 'Delete') {
+        clearAll();
+        const button = document.querySelector('[data-action="clear"]');
+        if (button) animateButton(button);
+      } else if (event.key === 'Backspace') {
+        backspace();
+        const button = document.querySelector('[data-action="backspace"]');
+        if (button) animateButton(button);
+      } else if (event.key === '%') {
+        percent();
+        const button = document.querySelector('[data-action="percent"]');
+        if (button) animateButton(button);
+      }
+    });
+
+    // Initialize everything
+    async function initializeApp() {
+      loadTheme();
+      updateDisplay();
+      await initializeIcons();
+    }
+
+    // Start the app
+    initializeApp();
+
+    // Prevent zoom on double tap
+    document.addEventListener('touchstart', function (e) {
+      if (e.touches.length > 1) {
+        e.preventDefault();
+      }
+    });
+
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function (e) {
+      const now = (new Date()).getTime();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+  </script>
 </body>
+
 </html>
