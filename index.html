@@ -99,7 +99,7 @@
             justify-content: center;
             margin-bottom: 30px;
             border: 2px solid rgba(255, 255, 255, 0.08);
-            box-shadow:
+            box-shadow: 
                 0 0 0 1px rgba(255, 255, 255, 0.03),
                 0 8px 32px rgba(0, 0, 0, 0.4),
                 inset 0 0 20px rgba(255, 255, 255, 0.02);
@@ -110,7 +110,7 @@
         .light-theme .logo-circle {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.02));
             border: 2px solid rgba(0, 0, 0, 0.08);
-            box-shadow:
+            box-shadow: 
                 0 0 0 1px rgba(0, 0, 0, 0.03),
                 0 8px 32px rgba(0, 0, 0, 0.1),
                 inset 0 0 20px rgba(0, 0, 0, 0.02);
@@ -134,13 +134,8 @@
         }
 
         @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .logo-placeholder {
@@ -157,7 +152,7 @@
             font-size: 16px;
             text-align: center;
             font-family: var(--hindi-font);
-            box-shadow:
+            box-shadow: 
                 inset 0 0 10px rgba(0, 0, 0, 0.5),
                 0 4px 6px rgba(0, 0, 0, 0.2);
             position: relative;
@@ -169,7 +164,7 @@
         .light-theme .logo-placeholder {
             background: linear-gradient(135deg, #e0e0e0, #f0f0f0);
             color: #000000;
-            box-shadow:
+            box-shadow: 
                 inset 0 0 10px rgba(0, 0, 0, 0.1),
                 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -1413,9 +1408,9 @@
         }
 
         /* ========== RESPONSIVE DESIGN ========== */
-
+        
         /* Mobile (Default) - No changes needed */
-
+        
         /* Small phones (iPhone SE, small Android) */
         @media (max-width: 360px) and (max-height: 700px) {
             .logo-circle {
@@ -1423,38 +1418,38 @@
                 height: 110px;
                 margin-bottom: 20px;
             }
-
+            
             .logo-placeholder {
                 width: 85px;
                 height: 85px;
                 font-size: 14px;
             }
-
+            
             .logo-text-1 {
                 font-size: 16px;
             }
-
+            
             .logo-text-2 {
                 font-size: 12px;
             }
-
+            
             .welcome-title {
                 font-size: 28px;
             }
-
+            
             .welcome-subtitle {
                 font-size: 16px;
             }
-
+            
             .welcome-english {
                 font-size: 14px;
             }
-
+            
             .loading-buttons {
                 flex-direction: column;
                 gap: 12px;
             }
-
+            
             .name-area {
                 height: 18vh;
                 padding-bottom: 2vh;
@@ -1467,7 +1462,7 @@
             .center {
                 padding-bottom: 100px;
             }
-
+            
             .counters {
                 flex-direction: column;
                 gap: 12px;
@@ -1476,30 +1471,28 @@
             .counter {
                 width: 100%;
             }
-
+            
             .circle-btn {
                 width: 80px;
                 height: 80px;
             }
-
+            
             .circle-inner {
                 width: 66px;
                 height: 66px;
                 font-size: 18px;
             }
-
-            .corner-btn,
-            .info-btn,
-            .settings-btn {
+            
+            .corner-btn, .info-btn, .settings-btn {
                 width: 40px;
                 height: 40px;
             }
-
+            
             .mantra-container {
                 width: 90%;
                 padding: 12px;
             }
-
+            
             .mantra-text {
                 font-size: 16px;
             }
@@ -1510,109 +1503,107 @@
             body {
                 font-size: 16px;
             }
-
+            
             .logo-circle {
                 width: 180px;
                 height: 180px;
                 margin-bottom: 40px;
             }
-
+            
             .logo-placeholder {
                 width: 140px;
                 height: 140px;
                 font-size: 20px;
             }
-
+            
             .logo-text-1 {
                 font-size: 24px;
             }
-
+            
             .logo-text-2 {
                 font-size: 18px;
             }
-
+            
             .welcome-title {
                 font-size: 42px;
             }
-
+            
             .welcome-subtitle {
                 font-size: 20px;
             }
-
+            
             .welcome-english {
                 font-size: 18px;
             }
-
+            
             .loading-buttons {
                 max-width: 400px;
             }
-
+            
             .loading-btn {
                 padding: 18px 24px;
                 font-size: 16px;
             }
-
+            
             .name-large {
                 font-size: 10vh;
             }
-
+            
             .counter .value {
                 font-size: 32px;
             }
-
+            
             .circle-btn {
                 width: 110px;
                 height: 110px;
             }
-
+            
             .circle-inner {
                 width: 90px;
                 height: 90px;
                 font-size: 22px;
             }
-
+            
             .mantra-container {
                 max-width: 450px;
                 padding: 20px;
             }
-
+            
             .mantra-text {
                 font-size: 20px;
             }
-
+            
             .instruction {
                 font-size: 14px;
                 max-width: 400px;
             }
-
-            .settings-btn,
-            .info-btn,
-            .corner-btn {
+            
+            .settings-btn, .info-btn, .corner-btn {
                 width: 50px;
                 height: 50px;
                 font-size: 20px;
             }
-
+            
             .settings-btn {
                 left: 24px;
                 top: 24px;
             }
-
+            
             .info-btn {
                 right: 24px;
                 top: 24px;
             }
-
+            
             .reset-btn {
                 left: 24px;
                 bottom: 32px;
             }
-
+            
             .stats-btn {
                 right: 24px;
                 bottom: 32px;
             }
-
+            
             .floating-wrap {
                 bottom: 40px;
             }
@@ -1624,129 +1615,127 @@
                 max-width: 1200px;
                 margin: 0 auto;
             }
-
+            
             .logo-circle {
                 width: 200px;
                 height: 200px;
             }
-
+            
             .logo-placeholder {
                 width: 160px;
                 height: 160px;
                 font-size: 22px;
             }
-
+            
             .logo-text-1 {
                 font-size: 26px;
             }
-
+            
             .logo-text-2 {
                 font-size: 20px;
             }
-
+            
             .welcome-title {
                 font-size: 48px;
             }
-
+            
             .loading-buttons {
                 max-width: 450px;
             }
-
+            
             .name-area {
                 height: 25vh;
             }
-
+            
             .name-large {
                 font-size: 12vh;
             }
-
+            
             .subtitle {
                 font-size: 14px;
             }
-
+            
             .center {
                 padding: 20px 18px 140px 18px;
             }
-
+            
             .counters {
                 max-width: 500px;
                 gap: 24px;
             }
-
+            
             .counter {
                 padding: 20px;
             }
-
+            
             .counter .value {
                 font-size: 36px;
             }
-
+            
             .counter .label {
                 font-size: 14px;
             }
-
+            
             .circle-btn {
                 width: 120px;
                 height: 120px;
             }
-
+            
             .circle-inner {
                 width: 100px;
                 height: 100px;
                 font-size: 24px;
             }
-
+            
             .mantra-container {
                 max-width: 500px;
                 padding: 24px;
             }
-
+            
             .mantra-text {
                 font-size: 22px;
             }
-
+            
             .instruction {
                 font-size: 15px;
                 max-width: 500px;
             }
-
-            .settings-btn,
-            .info-btn,
-            .corner-btn {
+            
+            .settings-btn, .info-btn, .corner-btn {
                 width: 56px;
                 height: 56px;
                 font-size: 22px;
             }
-
+            
             .settings-btn {
                 left: 32px;
                 top: 32px;
             }
-
+            
             .info-btn {
                 right: 32px;
                 top: 32px;
             }
-
+            
             .reset-btn {
                 left: 32px;
                 bottom: 40px;
             }
-
+            
             .stats-btn {
                 right: 32px;
                 bottom: 40px;
             }
-
+            
             .floating-wrap {
                 bottom: 48px;
             }
-
+            
             /* Desktop-specific layout improvements */
             .name-area {
                 padding-bottom: 6vh;
             }
-
+            
             .mantra-container {
                 margin-bottom: 30px;
             }
@@ -1757,34 +1746,34 @@
             .app-container {
                 max-width: 1400px;
             }
-
+            
             .name-large {
                 font-size: 14vh;
             }
-
+            
             .counters {
                 max-width: 600px;
             }
-
+            
             .counter .value {
                 font-size: 40px;
             }
-
+            
             .circle-btn {
                 width: 140px;
                 height: 140px;
             }
-
+            
             .circle-inner {
                 width: 116px;
                 height: 116px;
                 font-size: 26px;
             }
-
+            
             .mantra-container {
                 max-width: 600px;
             }
-
+            
             .instruction {
                 max-width: 600px;
             }
@@ -1797,42 +1786,42 @@
                 height: 100px;
                 margin-bottom: 20px;
             }
-
+            
             .logo-placeholder {
                 width: 80px;
                 height: 80px;
                 font-size: 12px;
             }
-
+            
             .logo-text-1 {
                 font-size: 14px;
             }
-
+            
             .logo-text-2 {
                 font-size: 10px;
             }
-
+            
             .welcome-message {
                 margin-bottom: 20px;
             }
-
+            
             .welcome-title {
                 font-size: 24px;
                 margin-bottom: 10px;
             }
-
+            
             .welcome-subtitle {
                 font-size: 14px;
             }
-
+            
             .welcome-english {
                 font-size: 12px;
             }
-
+            
             .loading-buttons {
                 max-width: 280px;
             }
-
+            
             .mantra-container {
                 margin-bottom: 15px;
             }
@@ -1845,25 +1834,25 @@
                 justify-content: space-around;
                 padding: 20px;
             }
-
+            
             .logo-circle {
                 margin-bottom: 0;
                 margin-right: 20px;
                 width: 120px;
                 height: 120px;
             }
-
+            
             .logo-placeholder {
                 width: 90px;
                 height: 90px;
             }
-
+            
             .welcome-message {
                 margin-bottom: 0;
                 text-align: left;
                 max-width: 50%;
             }
-
+            
             .loading-buttons {
                 flex-direction: column;
                 max-width: 150px;
@@ -1878,7 +1867,7 @@
         <div class="logo-circle">
             <div class="logo-placeholder">
                 <div class="logo-text-1">श्री राधे</div>
-                <!-- <div class="logo-text-2">Radhey</div> -->
+                <div class="logo-text-2">Radhey</div>
             </div>
         </div>
         <div class="welcome-message">
@@ -1980,7 +1969,7 @@
                         <button class="option-btn" id="lightThemeBtn">लाइट</button>
                     </div>
                 </div>
-
+                
                 <div class="settings-card">
                     <div class="card-header">
                         <div class="card-icon">
@@ -2061,8 +2050,7 @@
         <div class="info-content">
             <div class="info-section">
                 <h3 id="developedTitle">Developed With Love</h3>
-                <p id="developedText">This app is developed with devotion to Radha Krishna. May their blessings be with
-                    you always.</p>
+                <p id="developedText">This app is developed with devotion to Radha Krishna. May their blessings be with you always.</p>
                 <p><strong>राधे राधे</strong></p>
             </div>
 
@@ -2093,8 +2081,7 @@
 
             <div class="info-section">
                 <h3 id="spiritualTitle">Spiritual Significance</h3>
-                <p id="spiritualText">Chanting Radha's name brings peace, happiness and spiritual progress. Regular japa
-                    purifies the heart
+                <p id="spiritualText">Chanting Radha's name brings peace, happiness and spiritual progress. Regular japa purifies the heart
                     and connects us with divine love.</p>
                 <p>"राधा नाम महामंत्र, सब सिद्धि करे दातार"</p>
             </div>
@@ -2118,7 +2105,7 @@
                     lightTheme: "लाइट",
                     hindi: "हिंदी",
                     english: "English",
-
+                    
                     // Main App
                     mantraLabel: "आपका मंत्र",
                     mantraPlaceholder: "अपना मंत्र सेट करने के लिए टैप करें",
@@ -2126,13 +2113,13 @@
                     lifeLabel: "जमाना (Lifetime)",
                     instruction: "टैप करके जप बढ़ाएँ — लंबे दबाव से तेज़ जप। गिनती स्थानीय रूप से संचित रहती है।",
                     innerBtn: "जय",
-
+                    
                     // Mantra Popup
                     mantraPopupTitle: "अपना मंत्र सेट करें",
                     mantraTextareaPlaceholder: "अपना मंत्र यहाँ लिखें...",
                     mantraCancel: "रद्द करें",
                     mantraSave: "सेव करें",
-
+                    
                     // Stats
                     statsTitle: "जप आँकड़े",
                     statTodayLabel: "आज के जप",
@@ -2140,7 +2127,7 @@
                     statMonthLabel: "इस महीने",
                     statTotalLabel: "कुल जप",
                     streakDays: "दिन लगातार",
-
+                    
                     // Info Screen
                     infoScreenTitle: "ऐप जानकारी",
                     developedTitle: "प्रेम से विकसित",
@@ -2178,7 +2165,7 @@
                     lightTheme: "Light",
                     hindi: "Hindi",
                     english: "English",
-
+                    
                     // Main App
                     mantraLabel: "Your Mantra",
                     mantraPlaceholder: "Tap to set your mantra",
@@ -2186,13 +2173,13 @@
                     lifeLabel: "Lifetime",
                     instruction: "Tap to increment count — Long press for continuous counting. Count is stored locally.",
                     innerBtn: "Chant",
-
+                    
                     // Mantra Popup
                     mantraPopupTitle: "Set Your Mantra",
                     mantraTextareaPlaceholder: "Write your mantra here...",
                     mantraCancel: "Cancel",
                     mantraSave: "Save",
-
+                    
                     // Stats
                     statsTitle: "Chanting Stats",
                     statTodayLabel: "Today's Count",
@@ -2200,7 +2187,7 @@
                     statMonthLabel: "This Month",
                     statTotalLabel: "Total Count",
                     streakDays: "days streak",
-
+                    
                     // Info Screen
                     infoScreenTitle: "App Information",
                     developedTitle: "Developed With Love",
@@ -2248,10 +2235,10 @@
             function applyLanguage(lang) {
                 currentLanguage = lang;
                 localStorage.setItem('radha_language', lang);
-
+                
                 // Update all text elements
                 const langTexts = texts[lang];
-
+                
                 // Settings
                 document.getElementById('settingsTitle').textContent = langTexts.settingsTitle;
                 document.getElementById('themeTitle').textContent = langTexts.themeTitle;
@@ -2262,7 +2249,7 @@
                 document.getElementById('lightThemeBtn').textContent = langTexts.lightTheme;
                 document.getElementById('hindiBtn').textContent = langTexts.hindi;
                 document.getElementById('englishBtn').textContent = langTexts.english;
-
+                
                 // Main App
                 document.getElementById('mantraLabel').textContent = langTexts.mantraLabel;
                 document.getElementById('mantraPlaceholder').textContent = langTexts.mantraPlaceholder;
@@ -2270,20 +2257,20 @@
                 document.getElementById('lifeLabel').textContent = langTexts.lifeLabel;
                 document.getElementById('instruction').textContent = langTexts.instruction;
                 document.getElementById('innerBtn').textContent = langTexts.innerBtn;
-
+                
                 // Mantra Popup
                 document.getElementById('mantraPopupTitle').textContent = langTexts.mantraPopupTitle;
                 document.getElementById('mantraTextarea').placeholder = langTexts.mantraTextareaPlaceholder;
                 document.getElementById('mantraCancel').textContent = langTexts.mantraCancel;
                 document.getElementById('mantraSave').textContent = langTexts.mantraSave;
-
+                
                 // Stats
                 document.getElementById('statsTitle').textContent = langTexts.statsTitle;
                 document.getElementById('statTodayLabel').textContent = langTexts.statTodayLabel;
                 document.getElementById('statWeekLabel').textContent = langTexts.statWeekLabel;
                 document.getElementById('statMonthLabel').textContent = langTexts.statMonthLabel;
                 document.getElementById('statTotalLabel').textContent = langTexts.statTotalLabel;
-
+                
                 // Info Screen
                 document.getElementById('infoScreenTitle').textContent = langTexts.infoScreenTitle;
                 document.getElementById('developedTitle').textContent = langTexts.developedTitle;
@@ -2292,7 +2279,7 @@
                 document.getElementById('featuresTitle').textContent = langTexts.featuresTitle;
                 document.getElementById('spiritualTitle').textContent = langTexts.spiritualTitle;
                 document.getElementById('spiritualText').textContent = langTexts.spiritualText;
-
+                
                 // Update lists
                 const howToUseList = document.getElementById('howToUseList');
                 howToUseList.innerHTML = '';
@@ -2301,7 +2288,7 @@
                     li.textContent = item;
                     howToUseList.appendChild(li);
                 });
-
+                
                 const featuresList = document.getElementById('featuresList');
                 featuresList.innerHTML = '';
                 langTexts.featuresList.forEach(item => {
@@ -2309,7 +2296,7 @@
                     li.textContent = item;
                     featuresList.appendChild(li);
                 });
-
+                
                 // Update active buttons
                 document.getElementById('hindiBtn').classList.toggle('active', lang === 'hindi');
                 document.getElementById('englishBtn').classList.toggle('active', lang === 'english');
@@ -2440,7 +2427,7 @@
             }
 
             // Open mantra popup
-            mantraContainer.addEventListener('click', function () {
+            mantraContainer.addEventListener('click', function() {
                 const currentMantra = localStorage.getItem('radha_mantra') || '';
                 mantraTextarea.value = currentMantra;
                 mantraPopup.classList.add('show');
@@ -2454,14 +2441,14 @@
             closeMantraPopup.addEventListener('click', closeMantraPopupFunc);
             mantraCancel.addEventListener('click', closeMantraPopupFunc);
 
-            mantraPopup.addEventListener('click', function (e) {
+            mantraPopup.addEventListener('click', function(e) {
                 if (e.target === mantraPopup) {
                     closeMantraPopupFunc();
                 }
             });
 
             // Save mantra
-            mantraSave.addEventListener('click', function () {
+            mantraSave.addEventListener('click', function() {
                 const newMantra = mantraTextarea.value.trim();
                 if (newMantra) {
                     localStorage.setItem('radha_mantra', newMantra);
@@ -2586,10 +2573,10 @@
                 if (!localStorage.getItem(LS_CHECKPOINT)) {
                     localStorage.setItem(LS_CHECKPOINT, '0');
                 }
-
+                
                 // Load mantra
                 loadMantra();
-
+                
                 // Apply saved theme and language
                 applyTheme(currentTheme);
                 applyLanguage(currentLanguage);
@@ -2718,8 +2705,8 @@
                 const currentDay = parseInt(localStorage.getItem(LS_DAY) || '0', 10);
 
                 if (currentLife === checkpoint) {
-                    alert(currentLanguage === 'hindi' ?
-                        'आप पहले से ही अंतिम चेकपॉइंट पर हैं' :
+                    alert(currentLanguage === 'hindi' ? 
+                        'आप पहले से ही अंतिम चेकपॉइंट पर हैं' : 
                         'You are already at the last checkpoint');
                     return;
                 }
@@ -2733,8 +2720,8 @@
                 dailyValue.textContent = Math.max(0, currentDay - diff);
                 lifeValue.textContent = checkpoint;
 
-                alert(currentLanguage === 'hindi' ?
-                    `अंतिम चेकपॉइंट पर वापस: ${checkpoint} जप` :
+                alert(currentLanguage === 'hindi' ? 
+                    `अंतिम चेकपॉइंट पर वापस: ${checkpoint} जप` : 
                     `Reset to last checkpoint: ${checkpoint} chants`);
             });
 
